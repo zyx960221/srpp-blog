@@ -8,11 +8,22 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
-    "vue": "^3.4.19"
+    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-prism": "^2.3.1",
+    "markdown-it-toc-done-right": "^4.2.0",
+    "prismjs": "^1.30.0",
+    "vue": "^3.4.19",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@rsbuild/core": "^0.4.14",
     "@rsbuild/plugin-vue": "^0.4.14",
+    "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-anchor": "^4.0.4",
+    "@types/prismjs": "^1.26.5",
+    "html-loader": "^4.2.0",
+    "markdown-it": "^14.1.0",
+    "markdown-loader": "^8.0.0",
     "typescript": "^5.4.2"
   }
 }

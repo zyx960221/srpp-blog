@@ -1,28 +1,33 @@
+<script setup lang="ts">
+// App.vue 现在只需要作为路由出口
+</script>
+
 <template>
-  <div class="content">
-    <h1>Rsbuild with Vue</h1>
-    <p>Start building amazing things with Rsbuild.</p>
-  </div>
+  <router-view></router-view>
 </template>
 
-<style scoped>
-.content {
-  display: flex;
-  min-height: 100vh;
-  line-height: 1.1;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
+<style>
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.content h1 {
-  font-size: 3.6rem;
-  font-weight: 700;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f0f2f5;
 }
 
-.content p {
-  font-size: 1.2rem;
-  font-weight: 400;
-  opacity: 0.5;
+a {
+  color: #42b883;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 </style>
