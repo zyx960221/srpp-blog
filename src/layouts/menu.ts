@@ -1,7 +1,7 @@
 export default {
   menu: [
     {
-      title: "技术经验",
+      title: "椒盐锟斤拷",
       path: "/posts/frontend",
       children: [
         {
@@ -57,6 +57,11 @@ export default {
           ],
         },
       ],
+    },
+    {
+      title: "徐州老味菜",
+      path: "/posts/photograph/index",
+      children: [],
     },
     // {
     //   title: "读书分享",
