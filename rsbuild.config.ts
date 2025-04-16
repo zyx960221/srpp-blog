@@ -22,10 +22,9 @@ const md = new MarkdownIt({
     listType: "ul",
   })
   .use(prism, {
-    defaultLanguage: "typescript",
     highlightInlineCode: true,
     plugins: ["line-numbers", "show-language"],
-    languages: ["javascript", "typescript", "css", "html", "json", "bash", "python", "java", "c", "c++", "go", "rust", "sql", "markup", "yaml", "dockerfile", "git", "graphql", "http", "ini", "makefile", "nginx", "regex", "scss", "shell", "vim", "xml"],
+    languages: ["all"],
   });
 
 export default defineConfig({

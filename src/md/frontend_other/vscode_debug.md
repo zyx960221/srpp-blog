@@ -6,6 +6,8 @@
 
 [launch.json 字段配置](https://code.visualstudio.com/docs/debugtest/debugging-configuration)
 
+[对 launch.json 了解再深入一点？](https://xie.infoq.cn/article/183b37b4d36785b3f18f7e5c1)
+
 基础信息和原理就不谈了，入门可参考以上文档，这里主要分享一下如何快速配置 vite + vue3 项目的调试。
 
 所有基于 vscode 分支的编辑器都可以配置 vscode 的调试功能。例如 windsurf，cursor，trae 等。
