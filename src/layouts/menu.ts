@@ -43,15 +43,19 @@ export default {
             },
           ],
         },
-        // {
-        //   title: "前端杂项",
-        //   children: [
-        //     {
-        //       title: "字体分割",
-        //       path: "/posts/vue-basics",
-        //     },
-        //   ],
-        // },
+        {
+          title: "前端杂项",
+          children: [
+            // {
+            //   title: "字体分割",
+            //   path: "/posts/vue-basics",
+            // },
+            {
+              title: "vscode快速调试",
+              path: "/posts/frontend_other/vscode_debug",
+            },
+          ],
+        },
       ],
     },
     // {

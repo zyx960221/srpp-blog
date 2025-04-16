@@ -3,7 +3,7 @@ import { pluginVue } from "@rsbuild/plugin-vue";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import toc from "markdown-it-toc-done-right";
-import prism from "markdown-it-prism";
+import prism from "markdown-it-prism"; // https://www.npmjs.com/package/markdown-it-prism
 
 // 创建 markdown-it 实例并配置插件
 const md = new MarkdownIt({
@@ -23,6 +23,9 @@ const md = new MarkdownIt({
   })
   .use(prism, {
     defaultLanguage: "typescript",
+    highlightInlineCode: true,
+    plugins: ["line-numbers", "show-language"],
+    languages: ["javascript", "typescript", "css", "html", "json", "bash", "python", "java", "c", "c++", "go", "rust", "sql", "markup", "yaml", "dockerfile", "git", "graphql", "http", "ini", "makefile", "nginx", "regex", "scss", "shell", "vim", "xml"],
   });
 
 export default defineConfig({
