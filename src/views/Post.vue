@@ -64,6 +64,7 @@ watchEffect(async () => {
 
 .markdown-content {
   line-height: 1.6;
+  font-family: "MapleMonoNL-Medium", Courier, monospace;
 }
 
 .markdown-content :deep(h1) {
