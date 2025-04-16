@@ -1,23 +1,14 @@
+/* fonts */
 @import url(./assets/fonts/MapleMono/MapleMonoNL-Bold/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-BoldItalic/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-ExtraBold/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-ExtraBoldItalic/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-ExtraLight/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-ExtraLightItalic/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-Italic/font.css);
 @import url(./assets/fonts/MapleMono/MapleMonoNL-Light/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-LightItalic/font.css);
 @import url(./assets/fonts/MapleMono/MapleMonoNL-Medium/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-MediumItalic/font.css);
 @import url(./assets/fonts/MapleMono/MapleMonoNL-Regular/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-SemiBold/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-SemiBoldItalic/font.css);
 @import url(./assets/fonts/MapleMono/MapleMonoNL-Thin/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNL-ThinItalic/font.css);
 @import url(./assets/fonts/MapleMono/MapleMonoNormalNL-Bold/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-BoldItalic/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-ExtraBold/font.css);
-@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-ExtraBoldItalic/font.css);
+@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-Light/font.css);
+@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-Medium/font.css);
+@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-Regular/font.css);
+@import url(./assets/fonts/MapleMono/MapleMonoNormalNL-Thin/font.css);
 
 * {
   margin: 0;

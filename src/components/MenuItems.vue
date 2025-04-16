@@ -51,7 +51,6 @@ defineProps<{
 
 .menu-item span {
   color: #666;
-  font-weight: 500;
   display: block;
   padding: 4px 0;
 }

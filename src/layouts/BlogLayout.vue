@@ -1,7 +1,24 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import menuData from "./menu";
-import MenuItems from "../components/MenuItems.vue";
+import PCAccordionMenu from "../components/PCAccordionMenu.vue";
+import MobileSlideMenu from "../components/MobileSlideMenu.vue";
+import { ref, onMounted, onUnmounted } from "vue";
+
+const isMobile = ref(false);
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 768;
+};
+
+onMounted(() => {
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile);
+});
 
 // 定义菜单项的类型
 interface MenuItem {
@@ -16,8 +33,9 @@ interface MenuItem {
     <!-- 左侧导航 -->
     <aside class="sidebar-left">
       <nav class="nav-menu">
-        <h3>本馆菜单</h3>
-        <MenuItems :items="menuData.menu" />
+        <h3 v-if="!isMobile">本馆菜单</h3>
+        <PCAccordionMenu v-if="!isMobile" :items="menuData.menu" />
+        <MobileSlideMenu v-else :items="menuData.menu" />
       </nav>
     </aside>
 
@@ -108,13 +126,6 @@ interface MenuItem {
 .menu-item a:hover {
   color: #000;
   text-decoration: underline;
-}
-
-.menu-item span {
-  color: #000;
-  font-weight: 500;
-  display: block;
-  padding: 4px 0;
 }
 
 .loading {

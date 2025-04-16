@@ -29,6 +29,9 @@ const md = new MarkdownIt({
 
 export default defineConfig({
   plugins: [pluginVue()],
+  output: {
+    polyfill: "usage",
+  },
   source: {
     // 添加 .md 扩展名支持
     include: ["**/*.[jt]s", "**/*.[jt]sx", "**/*.vue", "**/*.md"],

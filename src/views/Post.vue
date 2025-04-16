@@ -15,6 +15,7 @@ import "prismjs/components/prism-css";
 const route = useRoute();
 const postContent = ref<string>("加载中...");
 const error = ref<string | null>(null);
+const fileMeta = ref<{createdAt?: string; updatedAt?: string}>({});
 
 onUpdated(() => {
   Prism.highlightAll();
@@ -65,6 +66,9 @@ watchEffect(async () => {
 .markdown-content {
   line-height: 1.6;
   font-family: "MapleMonoNL-Medium", Courier, monospace;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 16px;
 }
 
 .markdown-content :deep(h1) {
@@ -84,15 +88,32 @@ watchEffect(async () => {
   color: #333;
 }
 
-.markdown-content :deep(code) {
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
 .markdown-content :deep(pre) {
   padding: 16px;
   border-radius: 4px;
-  overflow-x: auto;
   margin: 1em 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.file-meta {
+  margin-top: 2em;
+  padding: 1em 0;
+  border-top: 1px solid #eee;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.file-meta span {
+  display: block;
+  margin: 0.5em 0;
+}
+
+.markdown-content :deep(code) {
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  font-family: 'MapleMonoNL-Regular' !important;
+  overflow-x: auto;
 }
 </style>

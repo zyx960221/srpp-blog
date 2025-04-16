@@ -25,5 +25,8 @@
     "markdown-it": "^14.1.0",
     "markdown-loader": "^8.0.0",
     "typescript": "^5.4.2"
-  }
+  },
+  "browserslist": [
+    "Chrome >= 100"
+  ]
 }
