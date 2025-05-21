@@ -4,6 +4,7 @@ import menuData from "./menu";
 import PCAccordionMenu from "../components/PCAccordionMenu.vue";
 import MobileSlideMenu from "../components/MobileSlideMenu.vue";
 import { ref, onMounted, onUnmounted } from "vue";
+import BackToTop from "../components/BackToTop.vue";
 
 const isMobile = ref(false);
 
@@ -52,20 +53,18 @@ interface MenuItem {
         </template>
       </RouterView>
     </main>
-
-    <!-- 右侧区域 -->
-    <aside class="sidebar-right">
-      <!-- 预留右侧区域 -->
-    </aside>
+    <BackToTop />
   </div>
 </template>
 
 <style scoped>
 .blog-layout {
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
   min-height: 100vh;
   padding: 16px;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -76,23 +75,13 @@ interface MenuItem {
 }
 
 .sidebar-left {
+  box-sizing: border-box;
   padding: 16px;
 }
 
 .main-content {
   box-sizing: border-box;
-  padding: 16px;
-}
-
-.sidebar-right {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .sidebar-right {
-    display: block;
-    padding: 16px;
-  }
+  margin: 0 auto;
 }
 
 .nav-menu h3 {

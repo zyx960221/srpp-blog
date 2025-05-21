@@ -11,6 +11,7 @@ import "prismjs/components/prism-bash";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-markdown";
 import "prismjs/components/prism-css";
+import mermaid from "mermaid";
 
 const route = useRoute();
 const postContent = ref<string>("加载中...");
@@ -22,7 +23,31 @@ onUpdated(() => {
 });
 onMounted(() => {
   Prism.highlightAll();
+  renderMermaid();
 });
+onUpdated(() => {
+  Prism.highlightAll();
+  renderMermaid();
+});
+
+function renderMermaid() {
+  // 查找所有 mermaid 代码块
+  const blocks = document.querySelectorAll("code.language-mermaid");
+  blocks.forEach((block, idx) => {
+    const parent = block.parentElement;
+    if (!parent) return;
+    // 防止重复渲染
+    if (parent.classList.contains("mermaid-rendered")) return;
+    const code = block.textContent || "";
+    const mermaidDiv = document.createElement("div");
+    mermaidDiv.className = "mermaid";
+    mermaidDiv.id = `mermaid-${idx}-${Date.now()}`;
+    mermaidDiv.textContent = code;
+    parent.replaceWith(mermaidDiv);
+    mermaid.init(undefined, mermaidDiv);
+    mermaidDiv.classList.add("mermaid-rendered");
+  });
+}
 
 watchEffect(async () => {
   if (!route.params.pathMatch) {
@@ -53,8 +78,9 @@ watchEffect(async () => {
 
 <style scoped>
 .post {
-  max-width: 100%;
-  margin: 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .error {
@@ -67,8 +93,8 @@ watchEffect(async () => {
   line-height: 1.6;
   font-family: "MapleMonoNL-Medium", Courier, monospace;
   width: 100%;
-  max-width: 100%;
-  padding: 0 16px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .markdown-content :deep(h1) {
@@ -88,14 +114,6 @@ watchEffect(async () => {
   color: #333;
 }
 
-.markdown-content :deep(pre) {
-  padding: 16px;
-  border-radius: 4px;
-  margin: 1em 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
 .file-meta {
   margin-top: 2em;
   padding: 1em 0;
@@ -109,11 +127,35 @@ watchEffect(async () => {
   margin: 0.5em 0;
 }
 
-.markdown-content :deep(code) {
-  padding: 2px 4px;
+.markdown-content :deep(pre) {
+  position: relative;
+  box-sizing: border-box;
   border-radius: 4px;
-  white-space: pre-wrap;
+  margin: 1em 0;
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+}
+
+.markdown-content :deep(pre>code) {
   font-family: 'MapleMonoNL-Regular' !important;
   overflow-x: auto;
+  white-space: pre;
+  display: block;
+}
+
+.markdown-content :deep(p > code),
+.markdown-content :deep(li > code),
+.markdown-content :deep(td > code),
+.markdown-content :deep(span > code) {
+  margin: 0 0.2em;
+  background: #fff3b0;
+  color: #333;
+  padding: 0.10em 0.4em;
+  border-radius: 4px;
+  font-size: 0.95em;
+  line-height: 1.5;
+  font-family: 'MapleMonoNL-Regular', 'Fira Mono', 'Consolas', monospace;
+  word-break: break-all;
 }
 </style>

@@ -46,6 +46,12 @@ const handleScroll = () => {
   
   const currentScrollTop = window.scrollY;
   
+  // 在页面顶部时始终显示导航栏
+  if (currentScrollTop <= 0) {
+    isNavVisible.value = true;
+    return;
+  }
+  
   // 向下滚动时隐藏导航栏，向上滚动时显示
   if (currentScrollTop > lastScrollTop) {
     isNavVisible.value = false;
@@ -112,6 +118,7 @@ onUnmounted(() => {
 
 <style scoped>
 .mobile-nav {
+    box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
@@ -120,7 +127,7 @@ onUnmounted(() => {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  transition: transform 0.3s ease;
+  transition: transform 1s ease;
   font-family: 'MapleMonoNL-Thin';
 }
 
@@ -208,7 +215,7 @@ onUnmounted(() => {
   visibility: hidden;
   transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
   overflow-y: auto;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .menu-open {

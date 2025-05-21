@@ -41,8 +41,21 @@ export default {
               title: "框架设计",
               path: "/posts/vue/framework_design",
             },
+            {
+              title: "响应系统1",
+              path: "/posts/vue/reactivity1",
+            },
           ],
         },
+        // {
+        //   title: "Git",
+        //   children: [
+        //     {
+        //       title: "Git基础简介",
+        //       path: "/posts/git/introduction",
+        //     },
+        //   ]
+        // },
         {
           title: "前端杂项",
           children: [
