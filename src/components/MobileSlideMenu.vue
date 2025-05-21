@@ -9,8 +9,9 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const props = defineProps<{
+defineProps<{
   items: MenuItem[];
+  defaultOpen?: boolean;
 }>();
 
 // 控制菜单是否展开
@@ -107,7 +108,7 @@ onUnmounted(() => {
     <!-- 展开的菜单 -->
     <div class="slide-menu" :class="{ 'menu-open': isMenuOpen }">
       <div class="menu-content">
-        <MenuItems :items="items" />
+        <MenuItems :items="items" :defaultOpen="defaultOpen" />
       </div>
       <button class="close-button" @click="closeMenu" aria-label="关闭菜单">
         <span class="close-icon">×</span>

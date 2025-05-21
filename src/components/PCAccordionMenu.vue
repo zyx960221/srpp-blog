@@ -10,6 +10,7 @@ interface MenuItem {
 
 const props = defineProps<{
   items: MenuItem[];
+  defaultOpen?: boolean;
 }>();
 
 const activeIndex = ref<number | null>(null);
@@ -29,7 +30,12 @@ const findActiveIndex = (items: MenuItem[], path: string): number | null => {
 const activePath = computed(() => route.path);
 
 watch(activePath, (newPath) => {
-  activeIndex.value = findActiveIndex(props.items, newPath);
+  const idx = findActiveIndex(props.items, newPath);
+  if (idx !== null) {
+    activeIndex.value = idx;
+  } else if (props.defaultOpen && activeIndex.value === null) {
+    activeIndex.value = 0;
+  }
 }, { immediate: true });
 
 const toggleAccordion = (index: number) => {

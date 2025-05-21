@@ -9,6 +9,7 @@ interface MenuItem {
 
 defineProps<{
   items: MenuItem[];
+  defaultOpen?: boolean;
 }>();
 </script>
 
@@ -17,7 +18,7 @@ defineProps<{
     <li v-for="item in items" :key="item.title" class="menu-item">
       <RouterLink v-if="item.path" :to="item.path">{{ item.title }}</RouterLink>
       <span v-else>{{ item.title }}</span>
-      <MenuItems v-if="item.children" :items="item.children" />
+      <MenuItems v-if="item.children" :items="item.children" :defaultOpen="defaultOpen" />
     </li>
   </ul>
 </template>

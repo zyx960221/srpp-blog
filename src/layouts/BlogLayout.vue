@@ -35,8 +35,8 @@ interface MenuItem {
     <aside class="sidebar-left">
       <nav class="nav-menu">
         <h3 v-if="!isMobile">本馆菜单</h3>
-        <PCAccordionMenu v-if="!isMobile" :items="menuData.menu" />
-        <MobileSlideMenu v-else :items="menuData.menu" />
+        <PCAccordionMenu v-if="!isMobile" :items="menuData.menu" :defaultOpen="true" />
+        <MobileSlideMenu v-else :items="menuData.menu" :defaultOpen="true" />
       </nav>
     </aside>
 
