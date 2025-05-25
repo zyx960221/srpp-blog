@@ -62,7 +62,7 @@ function trigger (target, key) {
 }
 
 // 使用
-const data = { testVal: 1, testVal2: 2}
+const data = { testVal: 1, testVal2: 2, testSchedulerVal: 3 }
 const obj = new Proxy(data, {
   // 拦截读取
   get(target, key) {
@@ -88,3 +88,30 @@ function testEffect1 () {
 }
 
 effect(testEffect1)
+
+// 测试scheduler
+const queue = new Set()
+const p = Promise.resolve()
+
+let isPending = false
+function flushJob () {
+  if (isPending) return
+  isPending = true
+  p.then(() => {
+    queue.forEach(job => job())
+  }).finally(() => {
+    isPending = false
+  })
+}
+
+effect(() => {
+  console.log(obj.testSchedulerVal)
+}, {
+  scheduler(fn) {
+    queue.add(fn)
+    flushJob()
+  }
+})
+
+obj.testSchedulerVal++
+obj.testSchedulerVal++
