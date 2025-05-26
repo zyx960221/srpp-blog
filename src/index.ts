@@ -3,7 +3,7 @@ import router from "./router";
 import { createApp } from "vue";
 import App from "./App.vue";
 
-console.log("欢迎你 ·-·");
+console.log("这里永远欢迎你 ·-·");
 
 const app = createApp(App);
 

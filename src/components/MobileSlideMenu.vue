@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { RouterLink } from 'vue-router';
+import { ref, onMounted, onUnmounted } from 'vue';
 import MenuItems from './MenuItems.vue';
 
 interface MenuItem {
@@ -66,7 +65,7 @@ const handleScroll = () => {
 // 切换菜单展开状态
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
-  
+
   // 动态设置菜单高度
   if (isMenuOpen.value) {
     const slideMenu = document.querySelector('.slide-menu') as HTMLElement;
@@ -81,6 +80,11 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMenuOpen.value = false;
   document.body.style.overflow = '';
+};
+
+const handleMenuChange = () => {
+  console.log('handleMenuChange called'); // 添加此行以检查函数是否被正确调
+  closeMenu();
 };
 
 // 组件挂载时添加滚动监听
@@ -108,9 +112,9 @@ onUnmounted(() => {
     <!-- 展开的菜单 -->
     <div class="slide-menu" :class="{ 'menu-open': isMenuOpen }">
       <div class="menu-content">
-        <MenuItems :items="items" :defaultOpen="defaultOpen" />
+        <MenuItems :items="items" :defaultOpen="defaultOpen" @menu-change="handleMenuChange" />
       </div>
-      <button class="close-button" @click="closeMenu" aria-label="关闭菜单">
+      <button class="close-button" @click.stop="closeMenu" aria-label="关闭菜单">
         <span class="close-icon">×</span>
       </button>
     </div>
@@ -141,12 +145,12 @@ onUnmounted(() => {
 }
 
 .nav-header {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  height: 60px;
 }
 
 .nav-title {

@@ -11,14 +11,20 @@ defineProps<{
   items: MenuItem[];
   defaultOpen?: boolean;
 }>();
+
+const emits = defineEmits(["menu-change"]);
+
+const handleEmit = (item: MenuItem) => {
+  emits("menu-change", item);
+};
 </script>
 
 <template>
   <ul class="menu-list">
     <li v-for="item in items" :key="item.title" class="menu-item">
-      <RouterLink v-if="item.path" :to="item.path">{{ item.title }}</RouterLink>
-      <span v-else>{{ item.title }}</span>
-      <MenuItems v-if="item.children" :items="item.children" :defaultOpen="defaultOpen" />
+      <RouterLink v-if="item.path" :to="item.path" @click="handleEmit(item)">{{ item.title }}</RouterLink>
+      <span v-else @click.stop="() => {}">{{ item.title }}</span>
+      <MenuItems v-if="item.children" :items="item.children" :defaultOpen="defaultOpen" @menu-change="$emit('menu-change', $event)" />
     </li>
   </ul>
 </template>

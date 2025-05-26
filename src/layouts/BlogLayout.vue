@@ -6,10 +6,10 @@ import MobileSlideMenu from "../components/MobileSlideMenu.vue";
 import { ref, onMounted, onUnmounted } from "vue";
 import BackToTop from "../components/BackToTop.vue";
 
-const isMobile = ref(false);
+const isMobile = ref<boolean>(false);
 
 const checkMobile = () => {
-  isMobile.value = window.innerWidth < 768;
+  isMobile.value = window.innerWidth < 769;
 };
 
 onMounted(() => {
@@ -20,13 +20,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', checkMobile);
 });
-
-// 定义菜单项的类型
-interface MenuItem {
-  title: string;
-  path?: string;
-  children?: MenuItem[];
-}
 </script>
 
 <template>
@@ -34,14 +27,14 @@ interface MenuItem {
     <!-- 左侧导航 -->
     <aside class="sidebar-left">
       <nav class="nav-menu">
-        <h3 v-if="!isMobile">本馆菜单</h3>
+        <h2 v-if="!isMobile">松 软 澎 湃</h2>
         <PCAccordionMenu v-if="!isMobile" :items="menuData.menu" :defaultOpen="true" />
         <MobileSlideMenu v-else :items="menuData.menu" :defaultOpen="true" />
       </nav>
     </aside>
 
     <!-- 中间内容区 -->
-    <main class="main-content">
+    <main class="main-content" :style="{ paddingTop: isMobile ? '64px' : '0' }">
       <RouterView v-slot="{ Component }">
         <template v-if="Component">
           <Suspense>
@@ -60,31 +53,24 @@ interface MenuItem {
 <style scoped>
 .blog-layout {
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding: 16px;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .blog-layout {
-    grid-template-columns: 200px 1fr;
-    gap: 16px;
-  }
+  padding: 0 16px;
 }
 
 .sidebar-left {
   box-sizing: border-box;
-  padding: 16px;
 }
 
 .main-content {
   box-sizing: border-box;
-  margin: 0 auto;
+  width: 100%;
 }
 
-.nav-menu h3 {
+.nav-menu h2 {
+  box-sizing: border-box;
+  padding: 20px;
   margin-bottom: 16px;
   font-size: 1.1rem;
   color: #000;
@@ -121,5 +107,26 @@ interface MenuItem {
   text-align: center;
   padding: 16px;
   color: #000;
+}
+
+@media (min-width: 769px) {
+  .blog-layout {
+    flex-direction: row;
+  }
+
+  .sidebar-left {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    width: 200px;
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+
+  .main-content {
+    box-sizing: border-box;
+    flex: 1;
+  }
 }
 </style>

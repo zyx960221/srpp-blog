@@ -70,31 +70,26 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div class="post">
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-else class="markdown-content" v-html="postContent"></div>
-  </div>
+  <div v-if="error" class="error">{{ error }}</div>
+  <div v-else class="markdown-content" v-html="postContent"></div>
 </template>
 
 <style scoped>
-.post {
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-}
 
 .error {
-  color: #ff4444;
+  color: #ff6b6b;
   padding: 20px;
   text-align: center;
 }
 
 .markdown-content {
+  box-sizing: border-box;
   line-height: 1.6;
-  font-family: "MapleMonoNL-Medium", Courier, monospace;
-  width: 100%;
-  max-width: 800px;
+  font-family: MapleMonoNL-Medium, Courier, monospace;
   margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+  padding: 0 16px;
 }
 
 .markdown-content :deep(h1) {
