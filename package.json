@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "rsbuild dev --open",
     "build": "rsbuild build",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "markdown-it-anchor": "^8.6.7",
@@ -25,6 +26,7 @@
     "html-loader": "^4.2.0",
     "markdown-it": "^14.1.0",
     "markdown-loader": "^8.0.0",
+    "prettier": "^3.5.3",
     "typescript": "^5.4.2"
   },
   "browserslist": [

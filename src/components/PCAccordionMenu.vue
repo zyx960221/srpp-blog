@@ -58,7 +58,8 @@ const itemsWithState = computed(() => {
   return props.items.map((item, index) => ({
     ...item,
     isActive: activeIndex.value === index,
-    hasChildren: Boolean(item.children && item.children.length > 0)
+    hasChildren: Boolean(item.children && item.children.length > 0),
+    isCurrentPage: item.path === route.path // 判断是否为当前页面
   }));
 });
 
@@ -68,6 +69,11 @@ const onEnter = (el: Element) => {
   element.style.height = '0';
   element.offsetHeight; // 强制重排
   element.style.height = element.scrollHeight + 'px';
+  
+  // 动画结束后移除内联样式，让CSS接管
+  setTimeout(() => {
+    element.style.height = '';
+  }, 200);
 };
 
 const onLeave = (el: Element) => {
@@ -90,8 +96,11 @@ const onLeave = (el: Element) => {
         @click="toggleAccordion(index)"
         :class="{ 'is-animating': isAnimating }"
       >
-        <RouterLink v-if="item.path" :to="item.path" @click.stop>{{ item.title }}</RouterLink>
-        <span v-else>{{ item.title }}</span>
+        <div class="header-content">
+          <span v-if="item.isCurrentPage" class="current-page-indicator"></span>
+          <RouterLink v-if="item.path" :to="item.path" @click.stop>{{ item.title }}</RouterLink>
+          <span v-else>{{ item.title }}</span>
+        </div>
         <span 
           v-if="item.hasChildren" 
           class="arrow" 
@@ -104,6 +113,7 @@ const onLeave = (el: Element) => {
         name="accordion"
         @enter="onEnter"
         @leave="onLeave"
+        @after-enter="(el: any) => el.style.height = ''"
       >
         <div 
           v-show="item.children && item.isActive" 
@@ -132,6 +142,21 @@ const onLeave = (el: Element) => {
   padding: 8px;
   cursor: pointer;
   transition: background-color 0.15s ease;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.current-page-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #444;
+  margin-right: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .accordion-header:hover {
@@ -168,9 +193,10 @@ const onLeave = (el: Element) => {
 }
 
 .accordion-content-wrapper {
-  overflow: hidden;
+  overflow: visible;
   transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: height;
+  height: auto !important; /* 确保高度不被限制 */
 }
 
 .accordion-content {
@@ -178,25 +204,26 @@ const onLeave = (el: Element) => {
   margin: 0;
   padding-top: 4px;
   padding-bottom: 4px;
+  max-height: none; /* 移除可能的高度限制 */
 }
 
 /* 优化的动画效果 */
-.accordion-enter-active {
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+.accordion-enter-active,
 .accordion-leave-active {
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* 仅在动画过程中隐藏溢出内容 */
 }
 
 .accordion-enter-from,
 .accordion-leave-to {
   opacity: 0;
+  max-height: 0;
 }
 
 .accordion-enter-to,
 .accordion-leave-from {
   opacity: 1;
+  max-height: 1000px; /* 设置一个足够大的值 */
 }
 
 /* 性能优化：减少重绘 */

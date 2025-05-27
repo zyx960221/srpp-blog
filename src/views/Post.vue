@@ -153,4 +153,40 @@ watchEffect(async () => {
   font-family: 'MapleMonoNL-Regular', 'Fira Mono', 'Consolas', monospace;
   word-break: break-all;
 }
+
+/* blockquote样式 - 黑白灰审美 */
+.markdown-content :deep(blockquote) {
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-left: 4px solid #666;
+  background-color: #f5f5f5;
+  position: relative;
+  border-radius: 0 4px 4px 0;
+}
+
+.markdown-content :deep(blockquote::before) {
+  content: '"';
+  font-size: 2em;
+  color: #888;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  font-family: serif;
+  opacity: 0.5;
+}
+
+.markdown-content :deep(blockquote p) {
+  color: #444;
+  font-style: italic;
+  margin: 0.5em 0;
+  line-height: 1.6;
+}
+
+.markdown-content :deep(blockquote p:first-child) {
+  margin-top: 0;
+}
+
+.markdown-content :deep(blockquote p:last-child) {
+  margin-bottom: 0;
+}
 </style>
