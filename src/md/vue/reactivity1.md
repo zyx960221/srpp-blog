@@ -15,16 +15,16 @@
 那么，管理了副作用，可以主动地控制它的执行时机。
 
 ```typescript
-let globalVar: number = 1
+let globalVar: number = 1;
 
 // 副作用函数
 function effect() {
-    globalVar = 2
+  globalVar = 2;
 }
-
 ```
 
 ### 那么如何让obj变成响应数据呢？
+
 **响应的本质是什么**，是当数据发生变化时，读取和写入是可被管理和触发的。<br/>
 读取：它的副作用函数能够**自动获取最新**的值执行。<br/>
 写入：当修改值时，会触发**可跟踪**的设置操作。
@@ -45,6 +45,7 @@ flowchart LR
 ```
 
 当修改obj.text时，会触发**可跟踪**的设置操作，将effect函数从桶中取出并执行。
+
 ```mermaid
 flowchart LR
     setValue["`obj.text = 'hello world'`"]
@@ -65,25 +66,25 @@ flowchart LR
 ```typescript
 // 原始对象
 const obj = {
-    text: 'hello world'
-}
+  text: "hello world",
+};
 // 用来装副作用的桶
-const bucket = new Set<Function>()
+const bucket = new Set<Function>();
 // 响应对象
 const objProxy = new Proxy(obj, {
-    get(target, key) {
-        // 添加副作用函数到桶里
-        bucket.add(effect)
-        return target[key]
-    },
-    set(target, key, value) {
-        target[key] = value
-        // 取出副作用函数并执行
-        bucket.forEach(fn => fn())
-        // 返回true表示设置成功
-        return true
-    }
-})
+  get(target, key) {
+    // 添加副作用函数到桶里
+    bucket.add(effect);
+    return target[key];
+  },
+  set(target, key, value) {
+    target[key] = value;
+    // 取出副作用函数并执行
+    bucket.forEach((fn) => fn());
+    // 返回true表示设置成功
+    return true;
+  },
+});
 ```
 
 它目前是不灵活的，但基于这个代码上的基础，作者得出了响应系统的工作流程：
@@ -105,11 +106,13 @@ target 目标对象
 ```
 
 接下来是用代码实现这个新的桶结构，分别使用到了三种ES2015中的对象:
+
 1. WeakMap：用来存储对象与属性+副作用函数的一对一关系。这里存放是的是“target”与“Map”。
 2. Map：用来存储属性与副作用函数之间的一对一关系。这里存放的是“key”与“Set”。
 3. Set：用来存储副作用函数。这里存放的是“effectFn”集合。
 
 为什么要使用WeakMap和Map呢？
+
 1. WeakMap的键是弱引用的，不会影响垃圾回收机制。这意味着如果这个响应式对象不被引用，那么它就会被垃圾回收机制回收，而且WeakMap的键必须是对象。那么在使用的时候一个响应式对象不再被引用了，它就理应被回收，而不是累积在内存中导致溢出。
 2. Map的键是任意类型的，并且键或值存在一个，该引用则一直存在，会影响垃圾回收机制。
 
@@ -125,17 +128,19 @@ target 目标对象
 
 ```typescript
 const obj = {
-    ok: true,
-    text: 'hello world'
-}
+  ok: true,
+  text: "hello world",
+};
 
-const obj = new Proxy(obj, {/*...*/})
+const obj = new Proxy(obj, {
+  /*...*/
+});
 
 // 副作用函数收集器
 effect(function effectFn() {
-    // 分支切换
-    document.body.innerText = obj.ok ? obj.text : 'not'
-})
+  // 分支切换
+  document.body.innerText = obj.ok ? obj.text : "not";
+});
 ```
 
 vue给出的解决方案是，在副作用函数执行前，先将它从桶中删除，然后重新建立依赖关系。
@@ -143,19 +148,19 @@ vue给出的解决方案是，在副作用函数执行前，先将它从桶中�
 
 ```typescript
 // 被注册的副作用函数
-let activeEffect: Function | null = null
+let activeEffect: Function | null = null;
 
 // 副作用函数收集器
 function effect(fn: Function) {
-    const effectFn = () => {
-        // 当effectFn执行时，将它设置为当前激活的副作用函数
-        activeEffect = effectFn
-        fn()
-    }
-    // activeEffect/effectFn.deps用来存储所有与该副作用函数相关联的依赖集合
-    effectFn.deps = []
-    // 立即执行副作用函数
-    effectFn()
+  const effectFn = () => {
+    // 当effectFn执行时，将它设置为当前激活的副作用函数
+    activeEffect = effectFn;
+    fn();
+  };
+  // activeEffect/effectFn.deps用来存储所有与该副作用函数相关联的依赖集合
+  effectFn.deps = [];
+  // 立即执行副作用函数
+  effectFn();
 }
 ```
 
@@ -163,28 +168,29 @@ function effect(fn: Function) {
 
 ```javascript
 function track(target, key) {
-    // 没有激活的副作用函数，直接返回
-    if (!activeEffect) return
-    let depsMap = bucket.get(target)
-    if (!depsMap) {
-        bucket.set(target, (depsMap = new Map()))
-    }
-    // 获取key对应的依赖集合(副作用函数集合 Set)
-    let deps = depsMap.get(key)
-    if (!deps) {
-      depsMap.set(key, (deps = new Set()))
-    }
-    // 注意:将当前的activeEffect添加到依赖集合中
-    deps.add(activeEffect)
-    // 然后把deps添加到activeEffect.deps数组中, 这样就可以在activeEffect.deps中找到所有与它相关联的依赖集合
-    activeEffect.deps.push(deps)
+  // 没有激活的副作用函数，直接返回
+  if (!activeEffect) return;
+  let depsMap = bucket.get(target);
+  if (!depsMap) {
+    bucket.set(target, (depsMap = new Map()));
+  }
+  // 获取key对应的依赖集合(副作用函数集合 Set)
+  let deps = depsMap.get(key);
+  if (!deps) {
+    depsMap.set(key, (deps = new Set()));
+  }
+  // 注意:将当前的activeEffect添加到依赖集合中
+  deps.add(activeEffect);
+  // 然后把deps添加到activeEffect.deps数组中, 这样就可以在activeEffect.deps中找到所有与它相关联的依赖集合
+  activeEffect.deps.push(deps);
 }
 ```
 
 看这里其实有点蒙，难以理解作者提到的各种“副作用函数”执行路径，这里我将作者目前提到的一些函数和作用再细说一次：
-* effect函数：负责注册管理副作用函数，它的内部新建了一个effectFn函数，副作用函数将在effectFn函数中执行。
-* effectFn函数：负责执行副作用函数，它的内部会将自己设置为当前激活的副作用函数。
-* activeEffect：当前激活的副作用函数，并且上面挂载了deps属性，用于保存所有依赖的属性。
+
+- effect函数：负责注册管理副作用函数，它的内部新建了一个effectFn函数，副作用函数将在effectFn函数中执行。
+- effectFn函数：负责执行副作用函数，它的内部会将自己设置为当前激活的副作用函数。
+- activeEffect：当前激活的副作用函数，并且上面挂载了deps属性，用于保存所有依赖的属性。
 
 > 当我们在执行有响应式数据的副作用函数时，首先它会被放到effect函数里，effect函数执行新建了一个effectFn的函数，副作用函数将在该函数中执行。effectFn执行时会被放到activeEffect中，并且effectFn上挂载了依赖集合（结构如`[Set(), Set(), ...]`），然后effectFn被执行，触发了相应的getter或setter。由于目前我们考虑的是getter的情况，所以访问时会执行track函数，track会自动将当前属性关联的副作用函数添加到该属性所对应的依赖集合中。
 
@@ -194,34 +200,34 @@ function track(target, key) {
 
 ```typescript
 // 被注册的副作用函数
-let activeEffect: Function | null = null
+let activeEffect: Function | null = null;
 
 // 副作用函数收集器
 function effect(fn: Function) {
-    const effectFn = () => {
-        // ***新增这一行：执行前先清除***
-        effectFn.cleanup()
-        // 当effectFn执行时，将它设置为当前激活的副作用函数
-        activeEffect = effectFn
-        fn()
-    }
-    // activeEffect/effectFn.deps用来存储所有与该副作用函数相关联的依赖集合
-    effectFn.deps = []
-    // 立即执行副作用函数
-    effectFn()
+  const effectFn = () => {
+    // ***新增这一行：执行前先清除***
+    effectFn.cleanup();
+    // 当effectFn执行时，将它设置为当前激活的副作用函数
+    activeEffect = effectFn;
+    fn();
+  };
+  // activeEffect/effectFn.deps用来存储所有与该副作用函数相关联的依赖集合
+  effectFn.deps = [];
+  // 立即执行副作用函数
+  effectFn();
 }
 ```
 
 ```javascript
 function cleanup(effectFn) {
-    // 因为deps中存放的是Set的引用，所以这里不能直接删除deps，而是遍历deps中的Set进行删除操作
-    for (let i = 0; i < effectFn.deps.length; i++) {
-        const deps = effectFn.deps[i]
-        // 将当前的effectFn从deps中删除
-        deps.delete(effectFn)
-    }
-    // 最后清空effectFn.deps数组
-    effectFn.deps.length = 0
+  // 因为deps中存放的是Set的引用，所以这里不能直接删除deps，而是遍历deps中的Set进行删除操作
+  for (let i = 0; i < effectFn.deps.length; i++) {
+    const deps = effectFn.deps[i];
+    // 将当前的effectFn从deps中删除
+    deps.delete(effectFn);
+  }
+  // 最后清空effectFn.deps数组
+  effectFn.deps.length = 0;
 }
 ```
 
@@ -255,6 +261,7 @@ newSet.forEach((item: number)) => {
     set.add(1)
 })
 ```
+
 ---
 
 ## 处理嵌套副作用与执行栈
@@ -264,13 +271,13 @@ newSet.forEach((item: number)) => {
 那么事前做的简单注册机制，决定了effectFn只能执行一次。
 
 ```typescript
-let activeEffect
+let activeEffect;
 
 function effect(fn) {
-    /** ... */
-    // 这种写法，意味着嵌套的effectFn会变成activeEffect，而第一层执行的函数内的依赖则不会再被触发。
-    activeEffect = fn
-    /** ... */
+  /** ... */
+  // 这种写法，意味着嵌套的effectFn会变成activeEffect，而第一层执行的函数内的依赖则不会再被触发。
+  activeEffect = fn;
+  /** ... */
 }
 ```
 
@@ -290,19 +297,19 @@ function effect(fn) {
 
 ```typescript
 function effect(fn, options = {}) {
-    const effectFn = () => {
-        cleanup(effectFn)
-        activeEffect = effectFn
-        fn()
-    }
-    // 新增options属性，用来存储用户传递的调度对象
-    effectFn.options = options
-    effectFn.deps = []
-    if (!options.lazy) {
-        effectFn()
-    } else {
-        effectFn()
-    }
+  const effectFn = () => {
+    cleanup(effectFn);
+    activeEffect = effectFn;
+    fn();
+  };
+  // 新增options属性，用来存储用户传递的调度对象
+  effectFn.options = options;
+  effectFn.deps = [];
+  if (!options.lazy) {
+    effectFn();
+  } else {
+    effectFn();
+  }
 }
 ```
 
@@ -310,24 +317,24 @@ function effect(fn, options = {}) {
 
 ```typescript
 function trigger(target, key) {
-    /**  ... */
-    const effectsToRun = new Set()
-    effects && effects.forEach(effectFn => {
-        // 防止递归调用
-        if (effectFn !== activeEffect) {
-            effectsToRun.add(effectFn)
-        }
-    })
-    effectsToRun.forEach(effectFn => {
-        // 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
-        if  (effectFn.options.scheduler) {
-            effectFn.options.scheduler(effectFn)
-        }
-        else {
-            effectFn()
-        }
-    })
-    /**  ... */
+  /**  ... */
+  const effectsToRun = new Set();
+  effects &&
+    effects.forEach((effectFn) => {
+      // 防止递归调用
+      if (effectFn !== activeEffect) {
+        effectsToRun.add(effectFn);
+      }
+    });
+  effectsToRun.forEach((effectFn) => {
+    // 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+    if (effectFn.options.scheduler) {
+      effectFn.options.scheduler(effectFn);
+    } else {
+      effectFn();
+    }
+  });
+  /**  ... */
 }
 ```
 
@@ -339,41 +346,41 @@ function trigger(target, key) {
 
 ```typescript
 // 任务队列
-const jobQueue = new Set()
+const jobQueue = new Set();
 // 使用Promise.resolve()创建一个promise实例，我们用它将一个任务添加到微任务队列
-const p = Promise.resolve()
+const p = Promise.resolve();
 // 标志代表是否正在刷新队列
-let isFlushing = false
+let isFlushing = false;
 
 function flushJob() {
-    // 如果队列正在刷新，则什么都不做
-    if (isFlushing) return
-    // 当任务队列中有任务时，我们需要将isFlushing设置为true，从而防止重复刷新
-    isFlushing = true
-    // 在微任务队列中刷新jobQueue队列
-    p.then(() => {
-        jobQueue.forEach(job => job())
-    }).finally(() => {
-        // 结束后重置isFlushing
-        isFlushing = false
-    })
+  // 如果队列正在刷新，则什么都不做
+  if (isFlushing) return;
+  // 当任务队列中有任务时，我们需要将isFlushing设置为true，从而防止重复刷新
+  isFlushing = true;
+  // 在微任务队列中刷新jobQueue队列
+  p.then(() => {
+    jobQueue.forEach((job) => job());
+  }).finally(() => {
+    // 结束后重置isFlushing
+    isFlushing = false;
+  });
 }
 
 // 使用
 effect(
-    () => {
-        state.count++
+  () => {
+    state.count++;
+  },
+  {
+    // 调度器scheduler是一个函数
+    scheduler(fn) {
+      // 每次调度时，将副作用函数添加到jobQueue队列中
+      jobQueue.add(fn);
+      // 调用flushJob函数刷新队列
+      flushJob();
     },
-    {
-        // 调度器scheduler是一个函数
-        scheduler(fn) {
-            // 每次调度时，将副作用函数添加到jobQueue队列中
-            jobQueue.add(fn)
-            // 调用flushJob函数刷新队列
-            flushJob()
-        }
-    }
-)
+  },
+);
 ```
 
 vue为了减少DOM更新，异步更新机制是基于调度思想设计的。

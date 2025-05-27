@@ -43,8 +43,6 @@ flowchart LR
 
 为了解决中心化的弊病，分布式版本控制（Distributed Version Control System，DVCS）每个用户都有完整的版本库镜像，包括完整的历史记录。这一点通过“检出”操作实现。
 
-
-
 ```mermaid
 flowchart LR
     服务器["`服务器
@@ -69,8 +67,6 @@ flowchart LR
 
 ## 和其他集中式版本控制的区别
 
-
 ---
-
 
 ## Git基本操作（不涉及分支操作）

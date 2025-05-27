@@ -16,7 +16,7 @@ import mermaid from "mermaid";
 const route = useRoute();
 const postContent = ref<string>("加载中...");
 const error = ref<string | null>(null);
-const fileMeta = ref<{createdAt?: string; updatedAt?: string}>({});
+const fileMeta = ref<{ createdAt?: string; updatedAt?: string }>({});
 
 onUpdated(() => {
   Prism.highlightAll();
@@ -75,7 +75,6 @@ watchEffect(async () => {
 </template>
 
 <style scoped>
-
 .error {
   color: #ff6b6b;
   padding: 20px;
@@ -132,8 +131,8 @@ watchEffect(async () => {
   word-break: normal;
 }
 
-.markdown-content :deep(pre>code) {
-  font-family: 'MapleMonoNL-Regular' !important;
+.markdown-content :deep(pre > code) {
+  font-family: "MapleMonoNL-Regular" !important;
   overflow-x: auto;
   white-space: pre;
   display: block;
@@ -146,11 +145,11 @@ watchEffect(async () => {
   margin: 0 0.2em;
   background: #fff3b0;
   color: #333;
-  padding: 0.10em 0.4em;
+  padding: 0.1em 0.4em;
   border-radius: 4px;
   font-size: 0.95em;
   line-height: 1.5;
-  font-family: 'MapleMonoNL-Regular', 'Fira Mono', 'Consolas', monospace;
+  font-family: "MapleMonoNL-Regular", "Fira Mono", "Consolas", monospace;
   word-break: break-all;
 }
 

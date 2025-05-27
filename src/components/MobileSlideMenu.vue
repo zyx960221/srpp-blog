@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import MenuItems from './MenuItems.vue';
+import { ref, onMounted, onUnmounted } from "vue";
+import MenuItems from "./MenuItems.vue";
 
 interface MenuItem {
   title: string;
@@ -27,7 +27,7 @@ const calculateScrollPercentage = () => {
   const scrollTop = window.scrollY;
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
-  
+
   if (documentHeight <= windowHeight) {
     scrollPercentage.value = 100;
   } else {
@@ -43,22 +43,22 @@ let lastScrollTop = 0;
 const handleScroll = () => {
   calculateScrollPercentage();
   if (isMenuOpen.value) return; // 菜单展开时不监听滚动
-  
+
   const currentScrollTop = window.scrollY;
-  
+
   // 在页面顶部时始终显示导航栏
   if (currentScrollTop <= 0) {
     isNavVisible.value = true;
     return;
   }
-  
+
   // 向下滚动时隐藏导航栏，向上滚动时显示
   if (currentScrollTop > lastScrollTop) {
     isNavVisible.value = false;
   } else {
     isNavVisible.value = true;
   }
-  
+
   lastScrollTop = currentScrollTop;
 };
 
@@ -68,10 +68,10 @@ const toggleMenu = () => {
 
   // 动态设置菜单高度
   if (isMenuOpen.value) {
-    const slideMenu = document.querySelector('.slide-menu') as HTMLElement;
+    const slideMenu = document.querySelector(".slide-menu") as HTMLElement;
     if (slideMenu) {
       slideMenu.style.height = `${window.innerHeight}px`;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     }
   }
 };
@@ -79,29 +79,32 @@ const toggleMenu = () => {
 // 关闭菜单
 const closeMenu = () => {
   isMenuOpen.value = false;
-  document.body.style.overflow = '';
+  document.body.style.overflow = "";
 };
 
 const handleMenuChange = () => {
-  console.log('handleMenuChange called'); // 添加此行以检查函数是否被正确调
+  console.log("handleMenuChange called"); // 添加此行以检查函数是否被正确调
   closeMenu();
 };
 
 // 组件挂载时添加滚动监听
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener("scroll", handleScroll, { passive: true });
 });
 
 // 组件卸载时移除滚动监听
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-  document.body.style.overflow = ''; // 确保移除页面滚动限制
+  window.removeEventListener("scroll", handleScroll);
+  document.body.style.overflow = ""; // 确保移除页面滚动限制
 });
 </script>
 
 <template>
   <!-- 顶部导航栏 -->
-  <div class="mobile-nav" :class="{ 'nav-visible': isNavVisible, 'menu-open': isMenuOpen }">
+  <div
+    class="mobile-nav"
+    :class="{ 'nav-visible': isNavVisible, 'menu-open': isMenuOpen }"
+  >
     <div class="nav-header">
       <div class="nav-title">{{ scrollPercentage }}%</div>
       <button class="menu-toggle" @click="toggleMenu">
@@ -112,9 +115,17 @@ onUnmounted(() => {
     <!-- 展开的菜单 -->
     <div class="slide-menu" :class="{ 'menu-open': isMenuOpen }">
       <div class="menu-content">
-        <MenuItems :items="items" :defaultOpen="defaultOpen" @menu-change="handleMenuChange" />
+        <MenuItems
+          :items="items"
+          :defaultOpen="defaultOpen"
+          @menu-change="handleMenuChange"
+        />
       </div>
-      <button class="close-button" @click.stop="closeMenu" aria-label="关闭菜单">
+      <button
+        class="close-button"
+        @click.stop="closeMenu"
+        aria-label="关闭菜单"
+      >
         <span class="close-icon">×</span>
       </button>
     </div>
@@ -123,7 +134,7 @@ onUnmounted(() => {
 
 <style scoped>
 .mobile-nav {
-    box-sizing: border-box;
+  box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
@@ -133,7 +144,7 @@ onUnmounted(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   transition: transform 1s ease;
-  font-family: 'MapleMonoNL-Thin';
+  font-family: "MapleMonoNL-Thin";
 }
 
 .nav-visible {
@@ -177,7 +188,7 @@ onUnmounted(() => {
 
 .menu-icon::before,
 .menu-icon::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 20px;
   height: 2px;
@@ -218,7 +229,10 @@ onUnmounted(() => {
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   overflow-y: auto;
   font-size: 20px;
 }

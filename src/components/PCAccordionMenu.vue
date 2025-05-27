@@ -30,22 +30,26 @@ const findActiveIndex = (items: MenuItem[], path: string): number | null => {
 
 const activePath = computed(() => route.path);
 
-watch(activePath, (newPath) => {
-  const idx = findActiveIndex(props.items, newPath);
-  if (idx !== null) {
-    activeIndex.value = idx;
-  } else if (props.defaultOpen && activeIndex.value === null) {
-    activeIndex.value = 0;
-  }
-}, { immediate: true });
+watch(
+  activePath,
+  (newPath) => {
+    const idx = findActiveIndex(props.items, newPath);
+    if (idx !== null) {
+      activeIndex.value = idx;
+    } else if (props.defaultOpen && activeIndex.value === null) {
+      activeIndex.value = 0;
+    }
+  },
+  { immediate: true },
+);
 
 const toggleAccordion = async (index: number) => {
   // 防止动画期间的重复点击
   if (isAnimating.value) return;
-  
+
   isAnimating.value = true;
   activeIndex.value = activeIndex.value === index ? null : index;
-  
+
   // 等待动画完成
   await nextTick();
   setTimeout(() => {
@@ -59,28 +63,28 @@ const itemsWithState = computed(() => {
     ...item,
     isActive: activeIndex.value === index,
     hasChildren: Boolean(item.children && item.children.length > 0),
-    isCurrentPage: item.path === route.path // 判断是否为当前页面
+    isCurrentPage: item.path === route.path, // 判断是否为当前页面
   }));
 });
 
 // 动画钩子函数，优化动画性能
 const onEnter = (el: Element) => {
   const element = el as HTMLElement;
-  element.style.height = '0';
+  element.style.height = "0";
   element.offsetHeight; // 强制重排
-  element.style.height = element.scrollHeight + 'px';
-  
+  element.style.height = element.scrollHeight + "px";
+
   // 动画结束后移除内联样式，让CSS接管
   setTimeout(() => {
-    element.style.height = '';
+    element.style.height = "";
   }, 200);
 };
 
 const onLeave = (el: Element) => {
   const element = el as HTMLElement;
-  element.style.height = element.scrollHeight + 'px';
+  element.style.height = element.scrollHeight + "px";
   element.offsetHeight; // 强制重排
-  element.style.height = '0';
+  element.style.height = "0";
 };
 </script>
 
@@ -91,32 +95,34 @@ const onLeave = (el: Element) => {
       :key="item.title"
       class="accordion-item"
     >
-      <div 
-        class="accordion-header" 
+      <div
+        class="accordion-header"
         @click="toggleAccordion(index)"
         :class="{ 'is-animating': isAnimating }"
       >
         <div class="header-content">
           <span v-if="item.isCurrentPage" class="current-page-indicator"></span>
-          <RouterLink v-if="item.path" :to="item.path" @click.stop>{{ item.title }}</RouterLink>
+          <RouterLink v-if="item.path" :to="item.path" @click.stop>{{
+            item.title
+          }}</RouterLink>
           <span v-else>{{ item.title }}</span>
         </div>
-        <span 
-          v-if="item.hasChildren" 
-          class="arrow" 
+        <span
+          v-if="item.hasChildren"
+          class="arrow"
           :class="{ active: item.isActive }"
         >
           ›
         </span>
       </div>
-      <Transition 
+      <Transition
         name="accordion"
         @enter="onEnter"
         @leave="onLeave"
-        @after-enter="(el: any) => el.style.height = ''"
+        @after-enter="(el: any) => (el.style.height = '')"
       >
-        <div 
-          v-show="item.children && item.isActive" 
+        <div
+          v-show="item.children && item.isActive"
           class="accordion-content-wrapper"
         >
           <ul class="accordion-content">
@@ -232,6 +238,6 @@ const onLeave = (el: Element) => {
 }
 
 li {
-  margin: 0!important;
+  margin: 0 !important;
 }
 </style>

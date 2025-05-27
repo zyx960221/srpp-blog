@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from "vue";
 
 const isVisible = ref(false);
 
@@ -10,27 +10,21 @@ const checkScroll = () => {
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth'
+    behavior: "smooth",
   });
 };
 
 onMounted(() => {
-  window.addEventListener('scroll', checkScroll);
+  window.addEventListener("scroll", checkScroll);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', checkScroll);
+  window.removeEventListener("scroll", checkScroll);
 });
 </script>
 
 <template>
-  <button
-    v-if="isVisible"
-    class="back-to-top"
-    @click="scrollToTop"
-  >
-    ↑
-  </button>
+  <button v-if="isVisible" class="back-to-top" @click="scrollToTop">↑</button>
 </template>
 
 <style scoped>

@@ -14,11 +14,11 @@ const checkMobile = () => {
 
 onMounted(() => {
   checkMobile();
-  window.addEventListener('resize', checkMobile);
+  window.addEventListener("resize", checkMobile);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile);
+  window.removeEventListener("resize", checkMobile);
 });
 </script>
 
@@ -28,7 +28,11 @@ onUnmounted(() => {
     <aside class="sidebar-left">
       <nav class="nav-menu">
         <h2 v-if="!isMobile">松 软 澎 湃</h2>
-        <PCAccordionMenu v-if="!isMobile" :items="menuData.menu" :defaultOpen="true" />
+        <PCAccordionMenu
+          v-if="!isMobile"
+          :items="menuData.menu"
+          :defaultOpen="true"
+        />
         <MobileSlideMenu v-else :items="menuData.menu" :defaultOpen="true" />
       </nav>
     </aside>

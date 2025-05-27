@@ -22,9 +22,16 @@ const handleEmit = (item: MenuItem) => {
 <template>
   <ul class="menu-list">
     <li v-for="item in items" :key="item.title" class="menu-item">
-      <RouterLink v-if="item.path" :to="item.path" @click="handleEmit(item)">{{ item.title }}</RouterLink>
+      <RouterLink v-if="item.path" :to="item.path" @click="handleEmit(item)">{{
+        item.title
+      }}</RouterLink>
       <span v-else @click.stop="() => {}">{{ item.title }}</span>
-      <MenuItems v-if="item.children" :items="item.children" :defaultOpen="defaultOpen" @menu-change="$emit('menu-change', $event)" />
+      <MenuItems
+        v-if="item.children"
+        :items="item.children"
+        :defaultOpen="defaultOpen"
+        @menu-change="$emit('menu-change', $event)"
+      />
     </li>
   </ul>
 </template>

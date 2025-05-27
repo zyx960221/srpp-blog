@@ -14,22 +14,21 @@ computed方法可以添加 getter，用来返回一个值。这个值只有在ge
 
 ```javascript
 function computed(getter) {
-    // 我们需要触发effect，并将当前的getter作为依赖放进去执行。
-    const effectFn = effect(getter, {
-        lazy: true, // 但是我们在使用时，并不需要立即执行，而是在值发生变更时进行，所以在options中支持传入一个值，用来控制是否立即执行。
-    })
-    const obj = {
-        // 读取值时执行effectFn
-        get value() {
-            return effectFn();
-        }
-    }
-    return obj;
+  // 我们需要触发effect，并将当前的getter作为依赖放进去执行。
+  const effectFn = effect(getter, {
+    lazy: true, // 但是我们在使用时，并不需要立即执行，而是在值发生变更时进行，所以在options中支持传入一个值，用来控制是否立即执行。
+  });
+  const obj = {
+    // 读取值时执行effectFn
+    get value() {
+      return effectFn();
+    },
+  };
+  return obj;
 }
 ```
 
 设计它的关键点在于，传递给effect的函数，会被作为依赖收集起来。那么这个函数可以是一个getter
-
 
 ## watch
 
