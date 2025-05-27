@@ -6,9 +6,9 @@
 
 在setup的日常使用中，希望一个在需要更新时才计算值，可以使用 computed。如果让我们自己来设计，computed应该是什么样子？
 
-computed方法可以添加 getter，用来返回一个值。这个值只有在getter中的值更新时才会更新。
+computed方法可以添加 `getter`，用来返回一个值。这个值只有在getter中的值更新时才会更新。
 
-上一节我们实现了基础的响应系统，现在可以在调度器中添加 lazy 选项，用以控制computed的执行时机。
+首先上一节我们实现了基础的响应系统，现在可以在调度器中添加 lazy 选项，用以控制computed的执行时机。
 
 基于此我们可以先创建一个computed方法。
 
@@ -28,7 +28,7 @@ function computed(getter) {
 }
 ```
 
-设计它的关键点在于，传递给effect的函数，会被作为依赖收集起来。那么这个函数可以是一个getter
+设计它的关键点在于，传递给effect的函数，会被作为依赖收集起来。那么这个函数就可以是一个getter。我还没有看到ref的实现，所以暂时先不考虑computed所返回的ref。
 
 ## watch
 

@@ -143,8 +143,8 @@ watchEffect(async () => {
 .markdown-content :deep(td > code),
 .markdown-content :deep(span > code) {
   margin: 0 0.2em;
-  background: #fff3b0;
-  color: #333;
+  background: #3e3e3e;
+  color: #fff;
   padding: 0.1em 0.4em;
   border-radius: 4px;
   font-size: 0.95em;
