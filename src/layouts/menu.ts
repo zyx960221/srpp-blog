@@ -42,13 +42,13 @@ export default {
               path: "/posts/vue/framework_design",
             },
             {
-              title: "响应系统1",
+              title: "响应式基础1",
               path: "/posts/vue/reactivity1",
             },
-            // {
-            //   title: "响应系统2",
-            //   path: "/posts/vue/reactivity2",
-            // },
+            {
+              title: "响应式基础2",
+              path: "/posts/vue/reactivity2",
+            },
           ],
         },
         // {
