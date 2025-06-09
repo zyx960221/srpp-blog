@@ -1,5 +1,7 @@
 # 响应式系统（2）
 
+[示例代码](https://codepen.io/Lin-Alfred/pen/RNPjWWJ?editors=1011)
+
 ## computed
 
 > computed的定义：接受一个 getter 函数，返回一个只读的响应式 ref 对象。该 ref 通过 .value 暴露 getter 函数的返回值。它也可以接受一个带有 get 和 set 函数的对象来创建一个可写的 ref 对象。
@@ -186,7 +188,7 @@ flowchart LR
 
 ## watch
 
-> watch定义：侦听一个或多个响应式数据源，并在数据源变化时调用所给的回调函数。
+> watch的定义：侦听一个或多个响应式数据源，并在数据源变化时调用所给的回调函数。
 
 现在我们按照watch的使用来写一个最简单的watch方法。
 
