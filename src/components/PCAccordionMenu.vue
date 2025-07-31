@@ -159,7 +159,7 @@ const onLeave = (el: Element) => {
 .current-page-indicator {
   width: 8px;
   height: 8px;
-  background-color: #444;
+  background-color: #00b894;
   margin-right: 8px;
   border-radius: 2px;
   flex-shrink: 0;

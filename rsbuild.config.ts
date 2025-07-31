@@ -32,6 +32,10 @@ export default defineConfig({
   output: {
     polyfill: "usage",
   },
+  html: {
+    title: '松 软 澎 湃',
+    // favicon: './src/assets/icon.png',
+  },
   source: {
     // 添加 .md 扩展名支持
     include: ["**/*.[jt]s", "**/*.[jt]sx", "**/*.vue", "**/*.md"],

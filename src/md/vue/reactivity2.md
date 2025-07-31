@@ -281,8 +281,6 @@ function watch(source, cb) {
 
 ### 立即执行 & 回调执行时机
 
-> 
-
 ```javascript
 function watch(source, cb, options = {}) {
   /**... */

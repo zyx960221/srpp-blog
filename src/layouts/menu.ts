@@ -49,6 +49,10 @@ export default {
               title: "响应式基础2",
               path: "/posts/vue/reactivity2",
             },
+            {
+              title: "非原始值响应方案1",
+              path: "/posts/vue/reactivity3_reference1",
+            },
           ],
         },
         // {
