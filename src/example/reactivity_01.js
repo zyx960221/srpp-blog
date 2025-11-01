@@ -28,7 +28,7 @@ function effect(fn, options = {}) {
 
 // get 收集依赖
 function track(target, key) {
-  if (!activeEffect) return;
+  if (!activeEffect) return target[key];
   let depsMap = bucket.get(target);
   if (!depsMap) {
     bucket.set(target, (depsMap = new Map()));

@@ -53,6 +53,10 @@ export default {
               title: "非原始值响应方案1",
               path: "/posts/vue/reactivity3_reference1",
             },
+            // {
+            //   title: "非原始值响应方案2 & 代理数组",
+            //   path: "/posts/vue/reactivity4_reference2",
+            // },
           ],
         },
         // {
@@ -84,6 +88,20 @@ export default {
       path: "/posts/photograph/index",
       children: [],
     },
+    // {
+    //   title: "眷顾",
+    //   path: "/posts/favor/index",
+    //   children: [
+    //     // {
+    //     //   title: "字体分割",
+    //     //   path: "/posts/vue-basics",
+    //     // },
+    //     {
+    //       title: "01",
+    //       path: "/posts/favor/01",
+    //     },
+    //   ],
+    // },
     // {
     //   title: "读书分享",
     //   path: "/posts/backend",

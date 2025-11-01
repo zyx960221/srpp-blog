@@ -169,7 +169,7 @@ function effect(fn: Function) {
 ```javascript
 function track(target, key) {
   // 没有激活的副作用函数，直接返回
-  if (!activeEffect) return;
+  if (!activeEffect) return target[key];
   let depsMap = bucket.get(target);
   if (!depsMap) {
     bucket.set(target, (depsMap = new Map()));
